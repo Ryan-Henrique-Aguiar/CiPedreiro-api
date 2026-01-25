@@ -1,4 +1,4 @@
-package com.cipedreiros.api.domain.users;
+package com.cipedreiros.api.domain.dto;
 
 public record UserCreateDTO(
         String name,

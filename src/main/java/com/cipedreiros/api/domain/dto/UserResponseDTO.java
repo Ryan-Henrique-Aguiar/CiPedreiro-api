@@ -1,4 +1,6 @@
-package com.cipedreiros.api.domain.users;
+package com.cipedreiros.api.domain.dto;
+
+import com.cipedreiros.api.domain.users.UsersEnum;
 
 import java.util.UUID;
 
