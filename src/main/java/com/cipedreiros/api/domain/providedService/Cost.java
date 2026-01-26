@@ -22,7 +22,7 @@ public class Cost {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "providedservice_id")
+    @JoinColumn(name = "providedservice_id",nullable = false)
     private ProvidedService providedService;
 
     private String description;
