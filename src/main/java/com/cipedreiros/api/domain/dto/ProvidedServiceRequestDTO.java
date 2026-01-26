@@ -1,7 +1,8 @@
 package com.cipedreiros.api.domain.dto;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public record ProvidedServiceRequestDTO(String name, String description, LocalDate startDate, LocalDate endDate,
-                                        Long clientId,Long providerId) {
+                                        UUID clientId, UUID providerId) {
 }
