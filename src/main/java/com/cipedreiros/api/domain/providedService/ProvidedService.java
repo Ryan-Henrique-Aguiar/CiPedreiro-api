@@ -42,7 +42,7 @@ public class ProvidedService {
     @JoinColumn(name = "provider_id")
     private Provider provider;
 
-    @OneToMany(mappedBy = "providedService",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "providedService",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cost> costs;
 
     private BigDecimal amount;

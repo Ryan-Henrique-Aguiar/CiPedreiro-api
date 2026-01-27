@@ -6,9 +6,11 @@ import com.cipedreiros.api.domain.providedService.ProvidedService;
 import com.cipedreiros.api.domain.repository.CostRepository;
 import com.cipedreiros.api.domain.repository.ProvidedServiceRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class CostService {
 
     private final ProvidedServiceRepository providedServiceRepository;
@@ -24,6 +26,7 @@ public class CostService {
                 .orElseThrow(()-> new EntityNotFoundException("Serviço nao encontrado"));
 
         Cost cost = Cost.builder()
+                .providedService(providedService)
                 .description(dto.description())
                 .amount(dto.amount())
                 .build();
