@@ -1,16 +1,12 @@
 package com.cipedreiros.api.domain.service;
 
-import com.cipedreiros.api.domain.dto.ProvidedServiceRequestDTO;
+import com.cipedreiros.api.domain.dto.ProvidedServiceRequest;
+import com.cipedreiros.api.domain.mapper.ProvidedServiceMapper;
 import com.cipedreiros.api.domain.providedService.ProvidedService;
-import com.cipedreiros.api.domain.providedService.ProvidedServiceStatusEnum;
 import com.cipedreiros.api.domain.repository.ProvidedServiceRepository;
 import com.cipedreiros.api.domain.repository.ProviderRepository;
-import com.cipedreiros.api.domain.users.Provider;
 import com.cipedreiros.api.domain.users.Users;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 
 @Service
 public class ProvidedServiceService{
@@ -28,21 +24,11 @@ public class ProvidedServiceService{
 
     /** Metodo Inicial para criação de Serviços **/
 
-    public ProvidedService createProvidedService(ProvidedServiceRequestDTO data){
+    public ProvidedService createProvidedService(ProvidedServiceRequest data){
 
         Users client = usersService.findbyId(data.clientId()); //Reutilizando methodo finbyId do userService em vez do UsersRepository
-        Provider provider = providerRepository.findById(data.providerId()).orElseThrow(()-> new EntityNotFoundException("Provedor não encontrado")); //Verificando se o provider existe sem usar RuntimeException
 
-        ProvidedService providedService = ProvidedService.builder()
-                .name(data.name())
-                .description(data.description())
-                .startDate(data.startDate())
-                .endDate(data.endDate())
-                .status(ProvidedServiceStatusEnum.PENDING) // status inicial
-                .client(client)
-                .provider(provider)
-                .amount(BigDecimal.ZERO)
-                .build();
+        ProvidedService providedService = ProvidedServiceMapper.toEntity(data, client);
 
         return providedServiceRepository.save(providedService);
     };

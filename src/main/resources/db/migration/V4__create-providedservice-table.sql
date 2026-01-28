@@ -4,8 +4,10 @@ CREATE TABLE providedService(
     name VARCHAR(20) NOT NULL,
     description VARCHAR(200) NOT NULL,
     status VARCHAR(20) NOT NULL,
-    stardate DATE not null,
-    enddate DATE not null,
+    startdate DATE,
+    enddate DATE,
     client_id UUID REFERENCES users(id),
-    amount DECIMAL(10,2)
+    provider_id UUID REFERENCES provider(id),
+    amount DECIMAL(10,2),
+    payment_id UUID REFERENCES payment(id)
 )

@@ -31,7 +31,9 @@ public class ProvidedService {
     @Enumerated(EnumType.STRING)
     private ProvidedServiceStatusEnum status;
 
+    @Column(name = "startdate")
     private LocalDate startDate;
+    @Column(name = "enddate")
     private LocalDate endDate;
 
     @ManyToOne

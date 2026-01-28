@@ -1,10 +1,15 @@
 package com.cipedreiros.api.domain.mapper;
 
 import com.cipedreiros.api.domain.dto.CostResponse;
+import com.cipedreiros.api.domain.dto.ProvidedServiceRequest;
 import com.cipedreiros.api.domain.dto.ProvidedServiceResponse;
 import com.cipedreiros.api.domain.providedService.ProvidedService;
+import com.cipedreiros.api.domain.providedService.ProvidedServiceStatusEnum;
+import com.cipedreiros.api.domain.users.Users;
 
+import java.math.BigDecimal;
 import java.util.List;
+
 
 public class ProvidedServiceMapper {
     public static ProvidedServiceResponse toReponseDTO(ProvidedService service){
@@ -15,8 +20,8 @@ public class ProvidedServiceMapper {
                 service.getStatus(),
                 service.getStartDate(),
                 service.getEndDate(),
-                service.getClient().getId(),
-                service.getProvider().getId(),
+                service.getClient()!= null ? service.getClient().getId() : null,
+                service.getProvider() != null ? service.getProvider().getId() : null,
                 service.getCosts() == null ? List.<CostResponse>of() :
                         service.getCosts().stream()
                                 .map(CostMapper::toResponseDTO)
@@ -24,5 +29,19 @@ public class ProvidedServiceMapper {
                 service.getAmount()
         );
 
+    }
+
+    /* REQUEST → ENTITY (CREATE) */
+    public static ProvidedService toEntity(
+            ProvidedServiceRequest request,
+            Users client
+    ) {
+        return ProvidedService.builder()
+                .name(request.name())
+                .description(request.description())
+                .client(client)
+                .status(ProvidedServiceStatusEnum.PENDING) // default
+                .amount(BigDecimal.ZERO)                   // default
+                .build();
     }
 }

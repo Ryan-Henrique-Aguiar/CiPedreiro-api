@@ -1,7 +1,8 @@
 package com.cipedreiros.api.domain.controller;
 
-import com.cipedreiros.api.domain.dto.ProvidedServiceRequestDTO;
+import com.cipedreiros.api.domain.dto.ProvidedServiceRequest;
 import com.cipedreiros.api.domain.dto.ProvidedServiceResponse;
+import com.cipedreiros.api.domain.mapper.ProvidedServiceMapper;
 import com.cipedreiros.api.domain.providedService.ProvidedService;
 import com.cipedreiros.api.domain.service.ProvidedServiceService;
 import org.springframework.http.HttpStatus;
@@ -22,11 +23,11 @@ public class ProvidedServiceController {
 
     @PostMapping
     public ResponseEntity<ProvidedServiceResponse> create(
-            @RequestBody ProvidedServiceRequestDTO dto
+            @RequestBody ProvidedServiceRequest request
     ) {
-        ProvidedService service = providedServiceService.createProvidedService(dto);
+        ProvidedService service = providedServiceService.createProvidedService(request);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(Pro.toResponseDTO(service));
+                .body(ProvidedServiceMapper.toReponseDTO(service));
     }
 
 }
