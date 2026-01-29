@@ -1,10 +1,10 @@
 package com.cipedreiros.api.domain.service;
 
 import com.cipedreiros.api.domain.dto.UserCreateDTO;
-import com.cipedreiros.api.domain.dto.UserResponseDTO;
+import com.cipedreiros.api.domain.mapper.UsersMapper;
 import com.cipedreiros.api.domain.repository.UsersRepository;
 import com.cipedreiros.api.domain.users.Users;
-import com.cipedreiros.api.domain.users.UsersEnum;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -17,25 +17,16 @@ public class UsersService {
         this.usersRepository = usersRepository;
     }
 
-    public UserResponseDTO create(UserCreateDTO dto){
+    @Transactional
+    public Users createUser(UserCreateDTO dto){
         if (usersRepository.existsByEmail(dto.email())){
             throw new RuntimeException("Email ja cadastrado");
         }
-        Users user = Users.builder()
-                .name(dto.name())
-                .email(dto.email())
-                .password(dto.password())
-                .role(UsersEnum.CLIENT)
-                .build();
-        Users saved = usersRepository.save(user);
+        Users users = UsersMapper.toEntity(dto);
 
-        return  new UserResponseDTO(
-                saved.getId(),
-                saved.getName(),
-                saved.getEmail(),
-                saved.getRole()
-        );
+        return usersRepository.save(users);
     }
+
     public Users findbyId(UUID id){
         return usersRepository.findById(id).orElseThrow(()-> new RuntimeException("Usuario não encontado"));
     }
