@@ -49,6 +49,7 @@ public class ProvidedService {
 
     private BigDecimal amount;
 
+    @OneToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
