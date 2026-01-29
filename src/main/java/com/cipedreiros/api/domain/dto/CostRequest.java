@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public record CostRequest(
-        UUID id,
         String description,
-        BigDecimal amount
+        BigDecimal amount,
+        UUID providedServiceId
 ) {
 }

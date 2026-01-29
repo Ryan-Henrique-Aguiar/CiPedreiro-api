@@ -16,6 +16,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/providedservices/**").permitAll()
                         .requestMatchers("/user/**").permitAll()
+                        .requestMatchers("/cost/**").permitAll()
                         .anyRequest().permitAll()
                 );
 

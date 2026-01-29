@@ -49,7 +49,6 @@ public class ProvidedService {
 
     private BigDecimal amount;
 
-    @ManyToOne
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
