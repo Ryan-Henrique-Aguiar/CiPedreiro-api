@@ -22,9 +22,9 @@ public class UsersService {
         if (usersRepository.existsByEmail(dto.email())){
             throw new RuntimeException("Email ja cadastrado");
         }
-        Users users = UsersMapper.toEntity(dto);
+        Users user = UsersMapper.toEntity(dto);
 
-        return usersRepository.save(users);
+        return usersRepository.save(user);
     }
 
     public Users findbyId(UUID id){

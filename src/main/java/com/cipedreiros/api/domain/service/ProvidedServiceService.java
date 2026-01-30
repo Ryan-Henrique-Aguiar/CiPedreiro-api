@@ -32,7 +32,5 @@ public class ProvidedServiceService{
 
         return providedServiceRepository.save(providedService);
     };
-    /** ainda falta estabelecer diferenças de criação de serviços do provedor e do cliente
-     * e também para editiar e adicionar custos
-     * **/
+    // public ProvidedService editProvidedService()
 }
