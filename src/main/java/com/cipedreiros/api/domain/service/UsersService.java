@@ -7,6 +7,7 @@ import com.cipedreiros.api.domain.users.Users;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -29,5 +30,8 @@ public class UsersService {
 
     public Users findbyId(UUID id){
         return usersRepository.findById(id).orElseThrow(()-> new RuntimeException("Usuario não encontado"));
+    }
+    public List<Users> findAll(){
+        return usersRepository.findAll();
     }
 }

@@ -9,13 +9,13 @@ import com.cipedreiros.api.domain.users.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UsersController {
     private final UsersService usersService;
@@ -28,4 +28,14 @@ public class UsersController {
         return ResponseEntity.status(HttpStatus.CREATED).body(UsersMapper.toResponseDTO(user));
 
     }
+
+    @GetMapping
+    public ResponseEntity<List<UserResponseDTO>> getAll(){
+        List<Users> users = usersService.findAll();
+        List<UserResponseDTO> dtos = users.stream()
+                .map(UsersMapper::toResponseDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
+    }
+
 }
