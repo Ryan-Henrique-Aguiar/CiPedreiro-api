@@ -14,10 +14,10 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/providedservices/**").permitAll()
-                        .requestMatchers("/user/**").permitAll()
-                        .requestMatchers("/cost/**").permitAll()
-                        .anyRequest().permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/user/**").hasRole("CLIENT")
+                        .anyRequest().authenticated()
+
                 );
 
         return http.build();
