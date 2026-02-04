@@ -30,6 +30,13 @@ public class Users implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UsersEnum role;
 
+    public Users(String name,String email, String password, UsersEnum role){
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.role == UsersEnum.ADMIN)
