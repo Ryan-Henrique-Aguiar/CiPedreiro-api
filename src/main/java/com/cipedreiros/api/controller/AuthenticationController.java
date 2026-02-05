@@ -1,6 +1,8 @@
 package com.cipedreiros.api.controller;
 
+import com.cipedreiros.api.config.security.TokenService;
 import com.cipedreiros.api.domain.users.AuthenticationDTO;
+import com.cipedreiros.api.domain.users.LoginResponseDTO;
 import com.cipedreiros.api.domain.users.RegisterDTO;
 import com.cipedreiros.api.domain.users.Users;
 import com.cipedreiros.api.repository.UsersRepository;
@@ -19,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("auth")
 public class AuthenticationController {
     @Autowired
+    TokenService tokenService;
+
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -29,7 +34,9 @@ public class AuthenticationController {
         var usernamePassoword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassoword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.genareteToken((Users) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
 
     }
     @PostMapping("/register")
