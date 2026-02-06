@@ -1,16 +1,15 @@
 package com.cipedreiros.api.controller;
 
+import com.cipedreiros.api.application.service.UsersService;
 import com.cipedreiros.api.config.security.TokenService;
 import com.cipedreiros.api.domain.users.AuthenticationDTO;
 import com.cipedreiros.api.domain.users.LoginResponseDTO;
 import com.cipedreiros.api.domain.users.RegisterDTO;
 import com.cipedreiros.api.domain.users.Users;
-import com.cipedreiros.api.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +26,7 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UsersRepository repository;
+    private UsersService usersService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Validated AuthenticationDTO data){
@@ -41,12 +40,7 @@ public class AuthenticationController {
     }
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Validated RegisterDTO data){
-        if (this.repository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build();
-
-        String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        Users newUser = new Users(data.name(),data.email(),encryptedPassword,data.role());
-
-        this.repository.save(newUser);
+        Users newUser = usersService.registerUser(data);
 
         return ResponseEntity.ok().build();
     }

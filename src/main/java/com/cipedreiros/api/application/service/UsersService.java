@@ -2,9 +2,11 @@ package com.cipedreiros.api.application.service;
 
 import com.cipedreiros.api.application.dto.UserCreateDTO;
 import com.cipedreiros.api.application.mapper.UsersMapper;
-import com.cipedreiros.api.repository.UsersRepository;
+import com.cipedreiros.api.domain.users.RegisterDTO;
 import com.cipedreiros.api.domain.users.Users;
+import com.cipedreiros.api.repository.UsersRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,11 +21,18 @@ public class UsersService {
     }
 
     @Transactional
-    public Users createUser(UserCreateDTO dto){
+    public Users registerUser(RegisterDTO dto){
         if (usersRepository.existsByEmail(dto.email())){
             throw new RuntimeException("Email ja cadastrado");
         }
-        Users user = UsersMapper.toEntity(dto);
+        String encryptedPassword = new BCryptPasswordEncoder().encode(dto.password());
+        UserCreateDTO userCreateDTO = new UserCreateDTO(
+                dto.name(),
+                dto.email(),
+                encryptedPassword
+        );
+
+        Users user = UsersMapper.toEntity(userCreateDTO);
 
         return usersRepository.save(user);
     }
@@ -34,4 +43,5 @@ public class UsersService {
     public List<Users> findAll(){
         return usersRepository.findAll();
     }
+
 }
