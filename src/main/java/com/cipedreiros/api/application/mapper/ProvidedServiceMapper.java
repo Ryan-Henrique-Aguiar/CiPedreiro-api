@@ -12,7 +12,7 @@ import java.util.List;
 
 
 public class ProvidedServiceMapper {
-    public static ProvidedServiceResponse toReponseDTO(ProvidedService service){
+    public static ProvidedServiceResponse toResponseDTO(ProvidedService service){
         return new ProvidedServiceResponse(
                 service.getId(),
                 service.getName(),
