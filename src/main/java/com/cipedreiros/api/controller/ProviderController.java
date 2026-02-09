@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/provider")
+@RequestMapping("/api/v1/provider")
 @RequiredArgsConstructor
 public class ProviderController {
     private final ProviderService providerService;

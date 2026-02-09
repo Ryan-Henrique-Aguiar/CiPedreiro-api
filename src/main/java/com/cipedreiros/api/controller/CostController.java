@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/cost")
+@RequestMapping("/api/v1/cost")
 public class CostController {
     private final CostService costService;
 

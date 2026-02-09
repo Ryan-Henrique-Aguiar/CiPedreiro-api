@@ -20,15 +20,6 @@ import java.util.stream.Collectors;
 public class UsersController {
     private final UsersService usersService;
 
-//    @PostMapping("create")
-//    public ResponseEntity<UserResponseDTO> create(
-//            @RequestBody UserCreateDTO userCreateDTO
-//            ){
-//        Users user = usersService.createUser(userCreateDTO);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(UsersMapper.toResponseDTO(user));
-//
-//    }
-
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> getAll(){
         List<Users> users = usersService.findAll();
