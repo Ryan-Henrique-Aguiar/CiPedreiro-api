@@ -4,8 +4,8 @@ import com.cipedreiros.api.domain.providedService.ProvidedService;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @Table(name = "payment")
@@ -21,14 +21,16 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToMany(mappedBy = "payment",cascade = CascadeType.ALL)
-    private List<ProvidedService> providedServices;
+    @OneToOne(mappedBy = "payment",cascade = CascadeType.ALL)
+    private ProvidedService providedServices;
 
     @Enumerated(EnumType.STRING)
-    private paymentMethodEnum paymentMethod;
+    private PaymentMethodEnum paymentMethod;
 
     @Enumerated(EnumType.STRING)
-    private paymentStatusEnum paymentStatus;
+    private PaymentStatusEnum paymentStatus;
+
+    private BigDecimal amount;
 
     private LocalDate date;
 
