@@ -21,8 +21,8 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToOne(mappedBy = "payment",cascade = CascadeType.ALL)
-    private ProvidedService providedServices;
+    @OneToOne(mappedBy = "payment",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private ProvidedService providedService;
 
     @Enumerated(EnumType.STRING)
     private PaymentMethodEnum paymentMethod;
@@ -32,6 +32,6 @@ public class Payment {
 
     private BigDecimal amount;
 
-    private LocalDate date;
+    private LocalDate payment_date;
 
 }
