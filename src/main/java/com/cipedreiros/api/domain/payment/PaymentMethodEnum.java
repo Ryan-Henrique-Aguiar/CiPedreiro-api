@@ -1,6 +1,6 @@
 package com.cipedreiros.api.domain.payment;
 
-public enum paymentMethodEnum {
+public enum PaymentMethodEnum {
     CREDIT_CARD,
     DEBIT_CARD,
     PIX,

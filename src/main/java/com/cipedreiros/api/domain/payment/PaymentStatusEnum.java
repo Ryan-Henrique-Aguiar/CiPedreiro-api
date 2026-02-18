@@ -1,6 +1,6 @@
 package com.cipedreiros.api.domain.payment;
 
-public enum paymentStatusEnum {
+public enum PaymentStatusEnum {
     PENDING,
     FAILED,
     NONE,
