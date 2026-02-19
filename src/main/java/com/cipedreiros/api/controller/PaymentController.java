@@ -1,7 +1,9 @@
 package com.cipedreiros.api.controller;
 
 
+import com.cipedreiros.api.application.dto.CostsDTO;
 import com.cipedreiros.api.application.dto.PaymentResponse;
+import com.cipedreiros.api.application.mapper.CostMapper;
 import com.cipedreiros.api.application.mapper.PaymentMapper;
 import com.cipedreiros.api.application.service.PaymentService;
 import com.cipedreiros.api.application.service.ProvidedServiceService;
@@ -29,8 +31,9 @@ public class PaymentController {
     public ResponseEntity<PaymentResponse> generatePayment(@PathVariable("providedservice_id")UUID id){
         ProvidedService providedService = providedServiceService.findById(id);
         Payment payment = paymentService.generatePayment(providedService);
+        CostsDTO costs = CostMapper.toCostsDTO(providedService.getCosts());
 
-        return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).body(PaymentMapper.toResponseDTO(providedService.getCosts(),payment));
+        return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).body(PaymentMapper.toResponseDTO(costs,payment));
     }
 
 }
