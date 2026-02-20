@@ -30,7 +30,8 @@ public class ProvidedServiceService{
     public ProvidedService findById(UUID id){
         return providedServiceRepository.findById(id).orElseThrow(()->new RuntimeException("Serviço nao encontrado"));
     }
-    public List<ProvidedService> findByClient(UUID clientId){
+    public List<ProvidedService> findByClient(UUID clientId) {
+
         List<ProvidedService> services = providedServiceRepository.findByClientId(clientId);
 
         if (services.isEmpty()) {
