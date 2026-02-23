@@ -52,7 +52,7 @@ public class ProvidedServiceController {
             return ResponseEntity.badRequest().body(null);
         }
 
-        ProvidedService service = providedServiceService.providedServiceUpdate(id,dto);
+        ProvidedService service = providedServiceService.update(id,dto);
         return ResponseEntity.ok(ProvidedServiceMapper.toResponseDTO(service));
     }
 

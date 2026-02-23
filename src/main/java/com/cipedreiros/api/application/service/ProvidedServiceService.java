@@ -6,9 +6,10 @@ import com.cipedreiros.api.application.mapper.ProvidedServiceMapper;
 import com.cipedreiros.api.domain.providedService.ProvidedService;
 import com.cipedreiros.api.domain.users.Provider;
 import com.cipedreiros.api.domain.users.Users;
+import com.cipedreiros.api.exceptions.ResourceNotFoundException;
 import com.cipedreiros.api.repository.ProvidedServiceRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,14 +29,16 @@ public class ProvidedServiceService{
 
 
     public ProvidedService findById(UUID id){
-        return providedServiceRepository.findById(id).orElseThrow(()->new RuntimeException("Serviço nao encontrado"));
+        return providedServiceRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Serviço não encontrado com ID: " + id));
     }
     public List<ProvidedService> findByClient(UUID clientId) {
 
         List<ProvidedService> services = providedServiceRepository.findByClientId(clientId);
 
         if (services.isEmpty()) {
-            throw new EntityNotFoundException("Nenhum serviço encontrado para o cliente");
+            throw new ResourceNotFoundException(
+                    "Nenhum serviço encontrado para o cliente ID: " + clientId
+            );
         }
 
         return services;
@@ -43,32 +46,27 @@ public class ProvidedServiceService{
 
     /** Metodo Inicial para criação de Serviços **/
 
-    public ProvidedService createProvidedService(ProvidedServiceRequest data){
+        public ProvidedService createProvidedService(ProvidedServiceRequest data){
 
-        Users client = usersService.findbyId(data.clientId()); //Reutilizando methodo finbyId do userService em vez do UsersRepository
+            Users client = usersService.findbyId(data.clientId()); //Reutilizando methodo finbyId do userService em vez do UsersRepository
 
-        ProvidedService providedService = ProvidedServiceMapper.toEntity(data, client);
+            ProvidedService providedService = ProvidedServiceMapper.toEntity(data, client);
 
-        return providedServiceRepository.save(providedService);
-    };
+            return providedServiceRepository.save(providedService);
+        };
 
-    public ProvidedService providedServiceUpdate(UUID id, ProvidedServiceUpdate dto){
-        ProvidedService providedService = findById(id);
+    @Transactional
+    public ProvidedService update(UUID id, ProvidedServiceUpdate dto) {
 
-        if (dto.startDate() != null){
-            providedService.setStartDate(dto.startDate());
-        }
-        if (dto.endDate() != null){
-            providedService.setEndDate(dto.endDate());
-        }
-        if (dto.provider() != null){
-            Provider provider = providerService.findById(dto.provider());
-            providedService.setProvider(provider);
-        }
-        if (dto.amount() != null){
-            providedService.setAmount(dto.amount());
+        ProvidedService service = findById(id);
+
+        Provider provider = null;
+        if (dto.provider() != null) {
+            provider = providerService.findById(dto.provider());
         }
 
-        return providedServiceRepository.save(providedService);
+        service.update(dto, provider);
+
+        return service;
     }
 }

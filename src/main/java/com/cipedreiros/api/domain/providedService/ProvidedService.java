@@ -1,5 +1,6 @@
 package com.cipedreiros.api.domain.providedService;
 
+import com.cipedreiros.api.application.dto.ProvidedServiceUpdate;
 import com.cipedreiros.api.domain.payment.Payment;
 import com.cipedreiros.api.domain.users.Provider;
 import com.cipedreiros.api.domain.users.Users;
@@ -52,5 +53,24 @@ public class ProvidedService {
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, optional = true, orphanRemoval = true)
     @JoinColumn(name = "payment_id")
     private Payment payment;
+
+    public void update(ProvidedServiceUpdate dto, Provider provider) {
+
+        if (dto.startDate() != null) {
+            this.startDate = dto.startDate();
+        }
+
+        if (dto.endDate() != null) {
+            this.endDate = dto.endDate();
+        }
+
+        if (provider != null) {
+            this.provider = provider;
+        }
+
+        if (dto.amount() != null) {
+            this.amount = dto.amount();
+        }
+    }
 
 }
